@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://com.liverestaurant.www/OrderService/schema"
+    xmlns:tns="http://com.liverestaurant.www/OrderService/schema"
+    elementFormDefault="qualified"
+    xmlns:QOrder="http://com.liverestaurant.www/OrderService/schema">
+    
+    <element name="placeOrderRequest">
+    	<complexType>
+    		<sequence>
+    			<element name="order" type="QOrder:Order"/>
+    		</sequence>
+    	</complexType>
+    </element>
+    
+    <element name="placeOrderResponse">
+        <complexType>
+            <sequence>
+                <element name="refNumber" type="string"></element>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="cancelOrderRequest">
+        <complexType>
+            <sequence>
+                <element name="refNumber" type="string"></element>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="cancelOrderResponse">
+        <complexType>
+            <sequence>
+                <element name="cancelled" type="boolean"></element>
+            </sequence>
+        </complexType>
+    </element>
+    
+    <complexType name="Order">
+      <sequence>
+          <element name="refNumber" type="string"/>
+          <element name="customer" type="QOrder:Customer"/>
+          <element name="dateSubmitted" type="dateTime"/>
+          <element name="orderDate" type="dateTime"/>
+          <element name="items" type="QOrder:FoodItem" maxOccurs="unbounded" minOccurs="1"/>
+      </sequence>
+  </complexType>
+    <complexType name="Customer">
+      <sequence>
+          <element name="addressPrimary" type="QOrder:Address"/>
+          <element name="addressSecondary" type="QOrder:Address"/>
+          <element name="name" type="QOrder:Name"/>
+      </sequence>
+  </complexType>
+    
+    <complexType name="Name">
+      <sequence>
+          <element name="fName" type="string"/>
+          <element name="mName" type="string"/>
+          <element name="lName" type="string"/>
+      </sequence>
+  </complexType>
+    
+    <complexType name="Address">
+      <sequence>
+          <element name="doorNo" type="string"/>
+          <element name="building" type="string"/>
+          <element name="street" type="string"/>
+          <element name="city" type="string"/>
+          <element name="country" type="string"/>
+          <element name="phoneMobile" type="string"/>
+          <element name="phoneLandLine" type="string"/>
+          <element name="email" type="string"/>
+      </sequence>
+  </complexType>
+  
+  <simpleType name="FoodItemType">
+        <restriction base="string">
+            <enumeration value="Snacks"/>
+            <enumeration value="Beverages"/>
+            <enumeration value="Starters"/>
+            <enumeration value="Meals"/>
+            <enumeration value="Coffee"/>
+            <enumeration value="Juices"/>
+            <enumeration value="Desserts"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="FoodItem">
+        <sequence>
+            <element name="type" type="QOrder:FoodItemType"/>
+            <element name="name" type="string"/>
+            <element name="quantity" type="double"/>
+        </sequence>
+    </complexType>
+</schema>
